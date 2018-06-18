@@ -1,0 +1,181 @@
+---
+title: "Research project paper template"
+date: 19.01.2018
+author: Natalia Semenova
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Materials  
+[Link to the data set https://github.com/semenovabnl/Linguistic-Data-Quantitative-Analysis-and-Visualisation/blob/master/Final_Project/final_project_data2.csv]
+[Links to other supplementary materials (questionnairy:  https://goo.gl/forms/hmXJk7Aqghri3EOO2)] 
+
+## Introduction  
+
+Describe the phenomenon.
+
+Provide information about the language (only for minor languages).
+
+Mention some previous research (optional).
+
+
+## Research hypothesis  
+
+...
+For our research we have a pro
+
+Discuss possible relevant factors.  
+Formulate null hypothesis.
+
+
+## Data  
+
+* Dependent variable, its type: "city"" is our dependant variable.  
+
+* Predictor variables, their types, range/levels: "question1", "question2", "question3", "question4", "question5", "question6","question7", "question8", "question9", "question10"; each of them are categorical, 2 levels.
+
+* Number of observations: we have 900 observations in total.
+
+```{r dataset}
+df_all <- read.csv("C:/Users/natus/Documents/R/final_project_data2.csv", sep = ";")  
+summary(df_all)
+str(df_all)
+```
+
+### Data collection and annotation   
+Our data was collected by questionnairy (Google Forms being used), we had interviewed 90 people from 3 cities: Barnaul, Novosibirsk and Omsk. There were 10 questions for every person, so we collected 900 answeres. Most of questions was 
+Mention the source of your data, details of data collection. Justify the amount of data under study. In addition, you can discuss certain difficulties, peculiarities and shortcomings in data collection and annotation.  
+
+### Data considerations
+Discuss research design (if applicable), independence, autocorrelation, nestedness of data, possible biases, etc.
+
+
+## R libraries in use
+```{r libraries}
+library(tidyverse)
+library(esc)
+library(vcd)
+library(Rling); 
+library(FactoMineR);
+library(rms)
+
+```
+
+
+## Analysis: descriptive statistics
+As we have categorical data for analysis so we decided to calculate a chi-square statistic for each question to prove that relation between city and peoples answers is statistically significant. We had estimated the effect size for every question. Here we prove that null hypothesis is wrong. Before that calculation we plot distribution of city and age from our data just to show what kind of people took part in our research.
+
+```{r}
+df_all %>% 
+    ggplot(aes(city, age))+geom_violin()+ geom_point(aes(color = age))+xlab('City') +
+    ylab('Age')+
+    labs(title = "Distribution of city and age")
+
+tbl_1 = table(df_all$city, df_all$question1)
+assocplot(tbl_1)
+tbl_2 = table(df_all$city, df_all$question2)
+assocplot(tbl_2)
+tbl_3 = table(df_all$city, df_all$question3)
+assocplot(tbl_3)
+tbl_4 = table(df_all$city, df_all$question4)
+assocplot(tbl_4)
+tbl_5 = table(df_all$city, df_all$question5)
+assocplot(tbl_5)
+tbl_6 = table(df_all$city, df_all$question6)
+assocplot(tbl_6)
+tbl_7 = table(df_all$city, df_all$question7)
+assocplot(tbl_7)
+tbl_8 = table(df_all$city, df_all$question8)
+assocplot(tbl_8)
+tbl_9 = table(df_all$city, df_all$question9)
+assocplot(tbl_9)
+tbl_10 = table(df_all$city, df_all$question10)
+assocplot(tbl_10)
+
+chi2_1 <- chisq.test(tbl_1)
+esc_chisq(chisq = chi2_1$statistic,totaln = 90 )
+chi2_2 <- chisq.test(tbl_2)
+esc_chisq(chisq = chi2_2$statistic,totaln = 90 )
+chi2_3 <- chisq.test(tbl_3)
+esc_chisq(chisq = chi2_3$statistic,totaln = 90 )
+chi2_4 <- chisq.test(tbl_4)
+esc_chisq(chisq = chi2_4$statistic,totaln = 90 )
+chi2_5 <- chisq.test(tbl_5)
+esc_chisq(chisq = chi2_5$statistic,totaln = 90 )
+chi2_6 <- chisq.test(tbl_6)
+esc_chisq(chisq = chi2_6$statistic,totaln = 90 )
+chi2_7 <- chisq.test(tbl_7)
+esc_chisq(chisq = chi2_7$statistic,totaln = 90 )
+chi2_8 <- chisq.test(tbl_8)
+esc_chisq(chisq = chi2_8$statistic,totaln = 90 )
+chi2_9 <- chisq.test(tbl_9)
+esc_chisq(chisq = chi2_9$statistic,totaln = 90 )
+chi2_10 <- chisq.test(tbl_10)
+esc_chisq(chisq = chi2_10$statistic,totaln = 90 )
+```
+
+
+## Multi-factor analysis  
+
+```{r}
+df<- df_all[, c("city", "question1", "question2", "question3", "question4", "question5", "question6","question7", "question8", "question9", "question10")]
+#Variant 1. By mca() (MASS).
+
+MCA <- MASS::mca(df)
+MCA
+df <- cbind(df, MCA$rs)
+variables <- as_data_frame(MCA$cs)
+variables$var_names <- rownames(MCA$cs)
+
+df %>% ggplot(aes(`1`, `2`))+
+  geom_point(aes(color = city))+
+  stat_ellipse(aes(color = city))+
+  geom_text(data = variables, aes(`1`, `2`, label = var_names))+
+  theme_bw()+
+  scale_x_continuous(limits = c(-0.03, 0.04))
+```
+
+
+```{r}
+#Variant 2. by FactorMiner
+df2 <- df_all[, c("city", "question1", "question2", "question3", "question4", "question5", "question6","question7", "question8", "question9", "question10")]
+categories <- apply(df2, 2, function(x) nlevels(as.factor(x)))
+mca_df <- MCA(df2, graph = FALSE)
+mca_df_vars <- data.frame(mca_df$var$coord, Variable = rep(names(categories), categories))
+mca_df_obs <- data.frame(mca_df$ind$coord)
+# MCA plot of observations and categories
+ggplot(data = mca_df_obs, aes(x = Dim.1, y = Dim.2)) +
+  geom_hline(yintercept = 0, colour = "gray70") +
+  geom_vline(xintercept = 0, colour = "gray70") +
+  geom_point(colour = "gray50", alpha = 0.7) +
+  geom_density2d(colour = "gray80") +
+  geom_text(data = mca_df_vars, 
+            aes(x = Dim.1, y = Dim.2, 
+                label = rownames(mca_df_vars), colour = Variable)) +
+  ggtitle("MCA plot of variables using R package FactoMineR") +
+  scale_colour_discrete(name = "Variable")
+```
+
+
+## Linguistic interpretation of the quantitative results  
+
+
+## Discussion on data distribution and quantitative methods in use   
+
+In conclusion, you can suggest ideas for further development of your research (correction of hypotheses, work with the data, their statistical analysis).
+
+## References
+
+1.	Беликов В.И.,  Крысин Л.П. Социолингвистика : Учебник.— М. : Изд-во Рос. гос. гуманит. ун-та, 2001 .— 437 с. 
+2.	Лябина А., по материалам региональных редакций «КП». 150 региональных словечек, которые введут в ступор москвичей. [Режим доступа]: http://www.nsk.kp.ru/daily/26342.7/3222103/
+3.	Е.В.Ерофеева. Вероятностные структуры идиомов: социолингвистический аспект. Пермь, 2005. С. 100.
+4.	А.С.Гердт. введение в этнолингвистику: курс лекций и хрестоматия. СПб., 2001. С.23.
+5. 
