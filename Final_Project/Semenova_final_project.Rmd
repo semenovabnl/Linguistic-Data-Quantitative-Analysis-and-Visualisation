@@ -1,11 +1,11 @@
 ---
-title: "Research project paper template"
+title: "Regional differences in the vocabulary of informal speech of the urban population"
 date: 19.01.2018
 author: Natalia Semenova
 output:
   html_document:
-    toc: true
-    toc_float: true
+    #toc: true
+    #toc_float: true
     code_folding: show
 
 ---
@@ -17,24 +17,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Materials  
 [Link to the data set https://github.com/semenovabnl/Linguistic-Data-Quantitative-Analysis-and-Visualisation/blob/master/Final_Project/final_project_data2.csv]
 [Links to other supplementary materials (questionnairy:  https://goo.gl/forms/hmXJk7Aqghri3EOO2)] 
+[Links to other supplementary materials (table: https://github.com/semenovabnl/Linguistic-Data-Quantitative-Analysis-and-Visualisation/blob/master/Final_Project/%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0.pdf)]
 
 ## Introduction  
 
-Describe the phenomenon.
-
-Provide information about the language (only for minor languages).
-
-Mention some previous research (optional).
+Speaking of the living spoken language of a modern city, one must bear in mind that even a literary oral speech is inherent in local coloration, which makes the "speech appearance" of Perm, for example, unlike the speech appearance of Voronezh, Stavropol, Petersburg and any city in another region. It is common knowledge that there are differences in the resolution of Muscovites and St. Petersburgers, they represent a set of historically established certain systemic observable orthoepic, lexical and intonational divergences of the states of the inhabitants of the two metropolitan cities of Russia - Moscow and St. Petersburg and their environs. Gruzberg L.A. argues that the real speech of a modern citizen can be determined by introducing the concept of "regiolect"(regional dialect) into scientific use. The term regional dialect was introduced into the modern Russian sociolinguistics by A.S. Gerdt. According to Gerdt, the regional dialect is "a special form of oral speech, in which many archaic features of the dialect have already been lost, new features have developed. This form, on the one hand, has not reached even greater status of the literary language, and also with the other, due to the availability of many areal-quiet grants, which does not completely coincide with the urban vernacular. The regioselects surround the range of a number of adjacent dialects, including here a city-type settlement and thus a very successful group of one or another ethnos. " In this regard, many subjects and phenomena (especially everyday importance), often in different regions of Russia, often have different names, that is, they use the so-called regional variants of naming the same concept, which often leads to a misunderstanding between native speakers of the Russian language. This study was conducted to cover such regional variants or regionalisms common in the Altai Territory, Novosibirsk and Omsk Regions, and experimental verification of their actual use among residents of these regions.
 
 
 ## Research hypothesis  
 
 ...
-For our research we have a pro
-
-Discuss possible relevant factors.  
-Formulate null hypothesis.
-
+We formulate null hypothesis the following way: we propose that collected answers for regional dialect words questionnaires do not related to location of interviewed people.The alternative hypothesis is that there is a relationship between location and regional dialect words use. Thus we need to examine is it true that people from different regions which are placed pretty close to each other use diffrent words for some definite things or facts in their everyday life.
 
 ## Data  
 
@@ -51,11 +44,8 @@ str(df_all)
 ```
 
 ### Data collection and annotation   
-Our data was collected by questionnairy (Google Forms being used), we had interviewed 90 people from 3 cities: Barnaul, Novosibirsk and Omsk. There were 10 questions for every person, so we collected 900 answeres. Most of questions was 
-Mention the source of your data, details of data collection. Justify the amount of data under study. In addition, you can discuss certain difficulties, peculiarities and shortcomings in data collection and annotation.  
+Our data was collected by questionnairy (Google Forms being used), we had interviewed 90 people from 3 cities (30 person from each city): Barnaul, Novosibirsk and Omsk. There were 10 questions for every person, so we collected 900 answeres. Most of questions was Multiple Choice, open questions were normalized for dataset. Words for research were selected according to well-known differences in names of the same objects and phenomena in speech of urban population of these cities.
 
-### Data considerations
-Discuss research design (if applicable), independence, autocorrelation, nestedness of data, possible biases, etc.
 
 
 ## R libraries in use
@@ -81,50 +71,69 @@ df_all %>%
 
 tbl_1 = table(df_all$city, df_all$question1)
 assocplot(tbl_1)
+chi2_1 <- chisq.test(tbl_1)
+chi2_1$p.value
+esc_chisq(chisq = chi2_1$statistic,totaln = 90 )
+
 tbl_2 = table(df_all$city, df_all$question2)
 assocplot(tbl_2)
+chi2_2 <- chisq.test(tbl_2)
+chi2_2$p.value
+esc_chisq(chisq = chi2_2$statistic,totaln = 90 )
+
 tbl_3 = table(df_all$city, df_all$question3)
 assocplot(tbl_3)
+chi2_3 <- chisq.test(tbl_3)
+chi2_3$p.value
+esc_chisq(chisq = chi2_3$statistic,totaln = 90 )
+
 tbl_4 = table(df_all$city, df_all$question4)
 assocplot(tbl_4)
+chi2_4 <- chisq.test(tbl_4)
+chi2_4$p.value
+esc_chisq(chisq = chi2_4$statistic,totaln = 90 )
+
 tbl_5 = table(df_all$city, df_all$question5)
 assocplot(tbl_5)
+chi2_5 <- chisq.test(tbl_5)
+chi2_5$p.value
+esc_chisq(chisq = chi2_5$statistic,totaln = 90 )
+
 tbl_6 = table(df_all$city, df_all$question6)
 assocplot(tbl_6)
+chi2_6 <- chisq.test(tbl_6)
+chi2_6$p.value
+esc_chisq(chisq = chi2_6$statistic,totaln = 90 )
+
 tbl_7 = table(df_all$city, df_all$question7)
 assocplot(tbl_7)
+chi2_7 <- chisq.test(tbl_7)
+chi2_7$p.value
+esc_chisq(chisq = chi2_7$statistic,totaln = 90 )
+
 tbl_8 = table(df_all$city, df_all$question8)
 assocplot(tbl_8)
+chi2_8 <- chisq.test(tbl_8)
+chi2_8$p.value
+esc_chisq(chisq = chi2_8$statistic,totaln = 90 )
+
 tbl_9 = table(df_all$city, df_all$question9)
 assocplot(tbl_9)
+chi2_9 <- chisq.test(tbl_9)
+chi2_9$p.value
+esc_chisq(chisq = chi2_9$statistic,totaln = 90 )
+
 tbl_10 = table(df_all$city, df_all$question10)
 assocplot(tbl_10)
-
-chi2_1 <- chisq.test(tbl_1)
-esc_chisq(chisq = chi2_1$statistic,totaln = 90 )
-chi2_2 <- chisq.test(tbl_2)
-esc_chisq(chisq = chi2_2$statistic,totaln = 90 )
-chi2_3 <- chisq.test(tbl_3)
-esc_chisq(chisq = chi2_3$statistic,totaln = 90 )
-chi2_4 <- chisq.test(tbl_4)
-esc_chisq(chisq = chi2_4$statistic,totaln = 90 )
-chi2_5 <- chisq.test(tbl_5)
-esc_chisq(chisq = chi2_5$statistic,totaln = 90 )
-chi2_6 <- chisq.test(tbl_6)
-esc_chisq(chisq = chi2_6$statistic,totaln = 90 )
-chi2_7 <- chisq.test(tbl_7)
-esc_chisq(chisq = chi2_7$statistic,totaln = 90 )
-chi2_8 <- chisq.test(tbl_8)
-esc_chisq(chisq = chi2_8$statistic,totaln = 90 )
-chi2_9 <- chisq.test(tbl_9)
-esc_chisq(chisq = chi2_9$statistic,totaln = 90 )
 chi2_10 <- chisq.test(tbl_10)
+chi2_10$p.value
 esc_chisq(chisq = chi2_10$statistic,totaln = 90 )
-```
 
+```
+From these plots we can observe that all our predictor variables relate to dependent (p-value is small).
 
 ## Multi-factor analysis  
-
+We decided to use 2 inplementations of Multiple correspondence analysis to visualize dependences between variables "city" and "question1", "question2", "question3", "question4", "question5", "question6","question7", "question8", "question9", "question10".
 ```{r}
 df<- df_all[, c("city", "question1", "question2", "question3", "question4", "question5", "question6","question7", "question8", "question9", "question10")]
 #Variant 1. By mca() (MASS).
@@ -140,7 +149,8 @@ df %>% ggplot(aes(`1`, `2`))+
   stat_ellipse(aes(color = city))+
   geom_text(data = variables, aes(`1`, `2`, label = var_names))+
   theme_bw()+
-  scale_x_continuous(limits = c(-0.03, 0.04))
+  scale_x_continuous(limits = c(-0.03, 0.04))+
+  ggtitle("MCA plot of variables using R package MASS")
 ```
 
 
@@ -163,19 +173,12 @@ ggplot(data = mca_df_obs, aes(x = Dim.1, y = Dim.2)) +
   ggtitle("MCA plot of variables using R package FactoMineR") +
   scale_colour_discrete(name = "Variable")
 ```
-
+Both plots show us that most of words can be attributed to definite city or located between two of them.
 
 ## Linguistic interpretation of the quantitative results  
+It was shown by MCA that people in neighbore regions like Altai Territory, Novosibirsk and Omsk Regions have several different regional dialect words which is used by them for naming the same objects in their speech. Chi-square statistic shown that mostly this relation is statistically significant.
 
+## Future plans  
 
-## Discussion on data distribution and quantitative methods in use   
+In conclusion, we suggest that our research can be expanded by collecting more data and adding new regional dialect words for further development of our work.
 
-In conclusion, you can suggest ideas for further development of your research (correction of hypotheses, work with the data, their statistical analysis).
-
-## References
-
-1.	Беликов В.И.,  Крысин Л.П. Социолингвистика : Учебник.— М. : Изд-во Рос. гос. гуманит. ун-та, 2001 .— 437 с. 
-2.	Лябина А., по материалам региональных редакций «КП». 150 региональных словечек, которые введут в ступор москвичей. [Режим доступа]: http://www.nsk.kp.ru/daily/26342.7/3222103/
-3.	Е.В.Ерофеева. Вероятностные структуры идиомов: социолингвистический аспект. Пермь, 2005. С. 100.
-4.	А.С.Гердт. введение в этнолингвистику: курс лекций и хрестоматия. СПб., 2001. С.23.
-5. 
